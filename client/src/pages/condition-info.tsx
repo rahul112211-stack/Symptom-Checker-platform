@@ -3,21 +3,21 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Alert, AlertDescription } from '@/components/ui/alert';
+import { conditions } from '@/data/conditions';
 import { 
   ArrowLeft, 
-  Heart, 
-  Shield, 
-  Clock, 
+  Calendar, 
   AlertTriangle, 
-  Stethoscope,
-  Calendar
+  BookOpen, 
+  Heart, 
+  Clock,
+  Shield,
+  CheckCircle,
+  Info
 } from 'lucide-react';
-import { conditions } from '@/data/conditions';
 
 export default function ConditionInfo() {
   const { id } = useParams<{ id: string }>();
-  
-  // Find condition by ID
   const condition = conditions.find(c => c.id === id);
 
   if (!condition) {
@@ -25,15 +25,18 @@ export default function ConditionInfo() {
       <div className="max-w-4xl mx-auto px-4 py-8">
         <Card className="text-center py-12">
           <CardContent>
-            <AlertTriangle className="h-16 w-16 text-red-300 mx-auto mb-4" />
-            <CardTitle className="text-xl text-slate-600 mb-2">
+            <AlertTriangle className="h-16 w-16 text-slate-300 mx-auto mb-4" />
+            <CardTitle className="text-slate-600 mb-2">
               Condition Not Found
             </CardTitle>
             <CardDescription className="mb-6">
-              The condition you're looking for doesn't exist or may have been removed.
+              The condition you're looking for doesn't exist or has been removed.
             </CardDescription>
             <Button asChild>
-              <Link to="/checker">Back to Symptom Checker</Link>
+              <Link to="/checker">
+                <ArrowLeft className="mr-2 h-4 w-4" />
+                Back to Symptom Checker
+              </Link>
             </Button>
           </CardContent>
         </Card>
@@ -41,17 +44,29 @@ export default function ConditionInfo() {
     );
   }
 
-  const severityColors = {
-    mild: "bg-green-100 text-green-800 border-green-200",
-    moderate: "bg-yellow-100 text-yellow-800 border-yellow-200",
-    severe: "bg-red-100 text-red-800 border-red-200"
+  const getSeverityColor = (severity: string) => {
+    switch (severity) {
+      case 'mild': return 'bg-green-100 text-green-800';
+      case 'moderate': return 'bg-yellow-100 text-yellow-800';
+      case 'severe': return 'bg-red-100 text-red-800';
+      default: return 'bg-gray-100 text-gray-800';
+    }
+  };
+
+  const getSeverityIcon = (severity: string) => {
+    switch (severity) {
+      case 'mild': return <CheckCircle className="h-4 w-4" />;
+      case 'moderate': return <Clock className="h-4 w-4" />;
+      case 'severe': return <AlertTriangle className="h-4 w-4" />;
+      default: return <Info className="h-4 w-4" />;
+    }
   };
 
   return (
     <div className="max-w-4xl mx-auto px-4 py-8">
-      {/* Navigation */}
+      {/* Back Button */}
       <div className="mb-6">
-        <Button variant="ghost" asChild className="text-slate-600 hover:text-slate-800">
+        <Button asChild variant="outline">
           <Link to="/checker">
             <ArrowLeft className="mr-2 h-4 w-4" />
             Back to Symptom Checker
@@ -60,195 +75,156 @@ export default function ConditionInfo() {
       </div>
 
       {/* Condition Header */}
-      <div className="mb-8">
-        <div className="flex items-start justify-between mb-4">
-          <div className="flex items-center space-x-4">
-            <span className="text-4xl">{condition.icon}</span>
-            <div>
-              <h1 className="text-3xl font-bold text-slate-800 mb-2">
-                {condition.name}
-              </h1>
-              <Badge 
-                variant="outline"
-                className={`${severityColors[condition.severity]} font-medium`}
-              >
-                {condition.severity.charAt(0).toUpperCase() + condition.severity.slice(1)} Condition
-              </Badge>
+      <Card className="mb-8">
+        <CardHeader>
+          <div className="flex items-start justify-between">
+            <div className="flex items-center space-x-4">
+              <span className="text-6xl">{condition.icon}</span>
+              <div>
+                <CardTitle className="text-3xl text-slate-800">
+                  {condition.name}
+                </CardTitle>
+                <div className="flex items-center space-x-2 mt-2">
+                  <Badge className={getSeverityColor(condition.severity)}>
+                    {getSeverityIcon(condition.severity)}
+                    <span className="ml-1 capitalize">{condition.severity}</span>
+                  </Badge>
+                </div>
+              </div>
             </div>
-          </div>
-        </div>
-        
-        <p className="text-lg text-slate-600 leading-relaxed">
-          {condition.description}
-        </p>
-      </div>
-
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-        {/* Main Content */}
-        <div className="lg:col-span-2 space-y-6">
-          {/* Symptoms */}
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center">
-                <Stethoscope className="mr-2 h-5 w-5 text-blue-600" />
-                Common Symptoms
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                {condition.symptoms.map((symptomId, index) => {
-                  // Get symptom name from symptoms data
-                  const symptomName = symptomId.replace('-', ' ').replace(/\b\w/g, l => l.toUpperCase());
-                  return (
-                    <div 
-                      key={index}
-                      className="flex items-center p-3 bg-slate-50 rounded-lg border"
-                    >
-                      <div className="w-2 h-2 bg-blue-500 rounded-full mr-3"></div>
-                      <span className="text-slate-700">{symptomName}</span>
-                    </div>
-                  );
-                })}
-              </div>
-            </CardContent>
-          </Card>
-
-          {/* Treatment */}
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center">
-                <Heart className="mr-2 h-5 w-5 text-green-600" />
-                Recommended Treatment
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <p className="text-slate-700 leading-relaxed">
-                {condition.treatment}
-              </p>
-            </CardContent>
-          </Card>
-
-          {/* Prevention */}
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center">
-                <Shield className="mr-2 h-5 w-5 text-purple-600" />
-                Prevention Tips
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="space-y-3">
-                <div className="flex items-start">
-                  <div className="w-2 h-2 bg-purple-500 rounded-full mr-3 mt-2"></div>
-                  <p className="text-slate-700">Maintain good hygiene practices including regular handwashing</p>
-                </div>
-                <div className="flex items-start">
-                  <div className="w-2 h-2 bg-purple-500 rounded-full mr-3 mt-2"></div>
-                  <p className="text-slate-700">Get adequate rest and maintain a healthy sleep schedule</p>
-                </div>
-                <div className="flex items-start">
-                  <div className="w-2 h-2 bg-purple-500 rounded-full mr-3 mt-2"></div>
-                  <p className="text-slate-700">Stay hydrated and maintain a balanced diet</p>
-                </div>
-                <div className="flex items-start">
-                  <div className="w-2 h-2 bg-purple-500 rounded-full mr-3 mt-2"></div>
-                  <p className="text-slate-700">Avoid close contact with sick individuals when possible</p>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-        </div>
-
-        {/* Sidebar */}
-        <div className="space-y-6">
-          {/* When to See a Doctor */}
-          <Card className="border-orange-200 bg-orange-50">
-            <CardHeader>
-              <CardTitle className="flex items-center text-orange-800">
-                <Clock className="mr-2 h-5 w-5" />
-                When to See a Doctor
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="space-y-3 text-sm">
-                <div className="flex items-start">
-                  <div className="w-2 h-2 bg-orange-500 rounded-full mr-3 mt-1.5"></div>
-                  <p className="text-orange-800">Symptoms persist for more than a week</p>
-                </div>
-                <div className="flex items-start">
-                  <div className="w-2 h-2 bg-orange-500 rounded-full mr-3 mt-1.5"></div>
-                  <p className="text-orange-800">High fever (over 101°F/38.3°C)</p>
-                </div>
-                <div className="flex items-start">
-                  <div className="w-2 h-2 bg-orange-500 rounded-full mr-3 mt-1.5"></div>
-                  <p className="text-orange-800">Difficulty breathing or chest pain</p>
-                </div>
-                <div className="flex items-start">
-                  <div className="w-2 h-2 bg-orange-500 rounded-full mr-3 mt-1.5"></div>
-                  <p className="text-orange-800">Symptoms worsen or new symptoms appear</p>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-
-          {/* Quick Actions */}
-          <Card>
-            <CardHeader>
-              <CardTitle>Quick Actions</CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-3">
-              <Button asChild className="w-full bg-blue-600 hover:bg-blue-700">
+            
+            <div className="text-right">
+              <Button asChild className="bg-blue-600 hover:bg-blue-700">
                 <Link to="/book">
                   <Calendar className="mr-2 h-4 w-4" />
-                  Book Appointment
+                  Consult Doctor
                 </Link>
               </Button>
-              
-              <Button asChild variant="outline" className="w-full">
-                <Link to="/checker">
-                  <Stethoscope className="mr-2 h-4 w-4" />
-                  New Symptom Check
-                </Link>
-              </Button>
-              
-              <Button asChild variant="outline" className="w-full">
-                <Link to="/history">
-                  <Clock className="mr-2 h-4 w-4" />
-                  View History
-                </Link>
-              </Button>
-            </CardContent>
-          </Card>
+            </div>
+          </div>
+        </CardHeader>
+        
+        <CardContent>
+          <p className="text-lg text-slate-700 leading-relaxed">
+            {condition.description}
+          </p>
+        </CardContent>
+      </Card>
 
-          {/* Severity Info */}
-          <Card>
-            <CardHeader>
-              <CardTitle>Severity Level</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className={`p-4 rounded-lg border ${severityColors[condition.severity]}`}>
-                <div className="font-semibold mb-2">
-                  {condition.severity.charAt(0).toUpperCase() + condition.severity.slice(1)}
-                </div>
-                <p className="text-sm">
-                  {condition.severity === 'mild' && 'Usually resolves with home care and rest'}
-                  {condition.severity === 'moderate' && 'May require medical attention if symptoms persist'}
-                  {condition.severity === 'severe' && 'Requires immediate medical attention'}
-                </p>
+      {/* Associated Symptoms */}
+      <Card className="mb-8">
+        <CardHeader>
+          <CardTitle className="flex items-center text-slate-800">
+            <Heart className="mr-2 h-5 w-5 text-red-500" />
+            Associated Symptoms
+          </CardTitle>
+          <CardDescription>
+            Common symptoms that may indicate this condition
+          </CardDescription>
+        </CardHeader>
+        
+        <CardContent>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+            {condition.symptoms.map((symptom, index) => (
+              <div 
+                key={index}
+                className="p-3 bg-slate-50 rounded-lg border border-slate-200"
+              >
+                <span className="text-sm font-medium text-slate-700 capitalize">
+                  {symptom.replace('-', ' ')}
+                </span>
               </div>
-            </CardContent>
-          </Card>
-        </div>
-      </div>
+            ))}
+          </div>
+        </CardContent>
+      </Card>
+
+      {/* Treatment Information */}
+      <Card className="mb-8">
+        <CardHeader>
+          <CardTitle className="flex items-center text-slate-800">
+            <Shield className="mr-2 h-5 w-5 text-green-500" />
+            Treatment & Management
+          </CardTitle>
+          <CardDescription>
+            General treatment approaches and management strategies
+          </CardDescription>
+        </CardHeader>
+        
+        <CardContent>
+          <div className="prose prose-slate max-w-none">
+            <p className="text-slate-700 leading-relaxed">
+              {condition.treatment}
+            </p>
+          </div>
+        </CardContent>
+      </Card>
+
+      {/* When to Seek Help */}
+      <Card className="mb-8">
+        <CardHeader>
+          <CardTitle className="flex items-center text-slate-800">
+            <AlertTriangle className="mr-2 h-5 w-5 text-amber-500" />
+            When to Seek Medical Help
+          </CardTitle>
+        </CardHeader>
+        
+        <CardContent>
+          <div className="space-y-4">
+            <div className="bg-red-50 border border-red-200 rounded-lg p-4">
+              <h4 className="font-semibold text-red-800 mb-2">Seek Immediate Care If:</h4>
+              <ul className="list-disc list-inside text-red-700 space-y-1">
+                <li>Symptoms worsen rapidly or become severe</li>
+                <li>You experience difficulty breathing or chest pain</li>
+                <li>You have signs of serious complications</li>
+                <li>Your condition doesn't improve with initial treatment</li>
+              </ul>
+            </div>
+            
+            <div className="bg-amber-50 border border-amber-200 rounded-lg p-4">
+              <h4 className="font-semibold text-amber-800 mb-2">Schedule an Appointment If:</h4>
+              <ul className="list-disc list-inside text-amber-700 space-y-1">
+                <li>Symptoms persist for more than a few days</li>
+                <li>You need professional diagnosis and treatment</li>
+                <li>You want to discuss prevention strategies</li>
+                <li>Your symptoms interfere with daily activities</li>
+              </ul>
+            </div>
+          </div>
+        </CardContent>
+      </Card>
 
       {/* Medical Disclaimer */}
-      <Alert className="mt-8 bg-amber-50 border-amber-200">
-        <AlertTriangle className="h-4 w-4 text-amber-600" />
-        <AlertDescription className="text-amber-800">
-          <strong>Medical Disclaimer:</strong> This information is for educational purposes only and should not 
-          replace professional medical advice. Always consult with a healthcare provider for proper diagnosis and treatment.
+      <Alert className="mb-8 bg-blue-50 border-blue-200">
+        <BookOpen className="h-4 w-4 text-blue-600" />
+        <AlertDescription className="text-blue-800">
+          <strong>Medical Disclaimer:</strong> This information is for educational purposes only and should not replace professional medical advice. Always consult with qualified healthcare providers for proper diagnosis, treatment, and medical decisions.
         </AlertDescription>
       </Alert>
+
+      {/* Action Buttons */}
+      <div className="flex flex-col sm:flex-row gap-4">
+        <Button asChild className="bg-blue-600 hover:bg-blue-700">
+          <Link to="/book">
+            <Calendar className="mr-2 h-4 w-4" />
+            Book Consultation
+          </Link>
+        </Button>
+        
+        <Button asChild variant="outline">
+          <Link to="/checker">
+            <ArrowLeft className="mr-2 h-4 w-4" />
+            Check Other Symptoms
+          </Link>
+        </Button>
+        
+        <Button asChild variant="outline">
+          <Link to="/faq">
+            <BookOpen className="mr-2 h-4 w-4" />
+            Learn More About Health
+          </Link>
+        </Button>
+      </div>
     </div>
   );
 }

@@ -23,7 +23,7 @@ export function DoctorModeProvider({ children }: { children: ReactNode }) {
 
 export function useDoctorMode() {
   const context = useContext(DoctorModeContext);
-  if (!context) {
+  if (context === undefined) {
     throw new Error('useDoctorMode must be used within a DoctorModeProvider');
   }
   return context;

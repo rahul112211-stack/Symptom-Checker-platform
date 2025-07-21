@@ -1,208 +1,103 @@
-export interface Symptom {
-  id: string;
-  name: string;
-  description: string;
-  emoji: string;
-  category: 'head' | 'chest' | 'stomach' | 'body' | 'general';
-}
-
 export interface Condition {
   id: string;
   name: string;
-  symptoms: string[];
-  description: string;
-  severity: 'mild' | 'moderate' | 'severe';
   icon: string;
+  description: string;
+  symptoms: string[];
+  severity: 'mild' | 'moderate' | 'severe';
   treatment: string;
+  match?: number;
 }
-
-export const symptoms: Symptom[] = [
-  {
-    id: 'headache',
-    name: 'Headache',
-    description: 'Head pain or pressure that may range from mild to severe',
-    emoji: '🤕',
-    category: 'head'
-  },
-  {
-    id: 'dizziness',
-    name: 'Dizziness',
-    description: 'Lightheadedness or feeling unsteady on your feet',
-    emoji: '😵‍💫',
-    category: 'head'
-  },
-  {
-    id: 'sore-throat',
-    name: 'Sore Throat',
-    description: 'Throat pain, scratchiness, or irritation that worsens when swallowing',
-    emoji: '😷',
-    category: 'head'
-  },
-  {
-    id: 'runny-nose',
-    name: 'Runny Nose',
-    description: 'Nasal discharge or congestion that may be clear or colored',
-    emoji: '👃',
-    category: 'head'
-  },
-  {
-    id: 'cough',
-    name: 'Cough',
-    description: 'Dry or productive cough that may be persistent',
-    emoji: '🤧',
-    category: 'chest'
-  },
-  {
-    id: 'chest-pain',
-    name: 'Chest Pain',
-    description: 'Discomfort or pain in the chest area',
-    emoji: '💓',
-    category: 'chest'
-  },
-  {
-    id: 'shortness-breath',
-    name: 'Shortness of Breath',
-    description: 'Difficulty breathing or feeling like you can\'t get enough air',
-    emoji: '😮‍💨',
-    category: 'chest'
-  },
-  {
-    id: 'nausea',
-    name: 'Nausea',
-    description: 'Feeling of sickness with an urge to vomit',
-    emoji: '🤢',
-    category: 'stomach'
-  },
-  {
-    id: 'stomach-pain',
-    name: 'Stomach Pain',
-    description: 'Abdominal pain or cramping in the stomach area',
-    emoji: '🤮',
-    category: 'stomach'
-  },
-  {
-    id: 'vomiting',
-    name: 'Vomiting',
-    description: 'Forceful emptying of stomach contents through the mouth',
-    emoji: '🤮',
-    category: 'stomach'
-  },
-  {
-    id: 'body-aches',
-    name: 'Body Aches',
-    description: 'Muscle or joint pain throughout the body',
-    emoji: '🦴',
-    category: 'body'
-  },
-  {
-    id: 'back-pain',
-    name: 'Back Pain',
-    description: 'Pain or stiffness in the back muscles or spine',
-    emoji: '🫸',
-    category: 'body'
-  },
-  {
-    id: 'fever',
-    name: 'Fever',
-    description: 'Elevated body temperature above 100.4°F (38°C)',
-    emoji: '🤒',
-    category: 'general'
-  },
-  {
-    id: 'fatigue',
-    name: 'Fatigue',
-    description: 'Extreme tiredness or lack of energy that doesn\'t improve with rest',
-    emoji: '😴',
-    category: 'general'
-  },
-  {
-    id: 'chills',
-    name: 'Chills',
-    description: 'Feeling cold and shivering, often with fever',
-    emoji: '🥶',
-    category: 'general'
-  }
-];
 
 export const conditions: Condition[] = [
   {
     id: 'common-cold',
     name: 'Common Cold',
-    symptoms: ['runny-nose', 'sore-throat', 'cough', 'headache', 'fatigue'],
-    description: 'A viral infection affecting the nose and throat. Usually mild and resolves on its own.',
-    severity: 'mild',
     icon: '🤧',
-    treatment: 'Rest, fluids, over-the-counter medications for symptom relief'
+    description: 'A viral infection of the upper respiratory tract that affects the nose and throat. Usually mild and resolves on its own within 7-10 days.',
+    symptoms: ['runny-nose', 'sneezing', 'sore-throat', 'cough', 'fatigue'],
+    severity: 'mild',
+    treatment: 'Rest, hydration, over-the-counter pain relievers, throat lozenges, and warm salt water gargles can help relieve symptoms. Most colds resolve without treatment.'
   },
   {
     id: 'flu',
     name: 'Influenza (Flu)',
-    symptoms: ['fever', 'body-aches', 'fatigue', 'headache', 'cough', 'chills'],
-    description: 'A viral infection that attacks the respiratory system. More severe than a common cold.',
-    severity: 'moderate',
     icon: '🤒',
-    treatment: 'Rest, fluids, antiviral medications if caught early'
+    description: 'A viral infection that affects the respiratory system. More severe than a common cold and can lead to serious complications if untreated.',
+    symptoms: ['fever', 'cough', 'fatigue', 'body-aches', 'headache', 'chills'],
+    severity: 'moderate',
+    treatment: 'Rest, fluids, antiviral medications (if started early), fever reducers, and supportive care. Severe cases may require hospitalization.'
+  },
+  {
+    id: 'migraine',
+    name: 'Migraine Headache',
+    icon: '🧠',
+    description: 'A neurological condition characterized by intense, throbbing headaches often accompanied by nausea, vomiting, and sensitivity to light and sound.',
+    symptoms: ['severe-headache', 'nausea', 'light-sensitivity', 'vomiting'],
+    severity: 'moderate',
+    treatment: 'Pain medications, triptans, anti-nausea drugs, rest in a dark quiet room, and identifying/avoiding triggers. Preventive medications may be prescribed for frequent migraines.'
+  },
+  {
+    id: 'tension-headache',
+    name: 'Tension Headache',
+    icon: '😣',
+    description: 'The most common type of headache, often described as a tight band around the head. Usually caused by stress, muscle tension, or poor posture.',
+    symptoms: ['mild-headache', 'neck-pain', 'fatigue'],
+    severity: 'mild',
+    treatment: 'Over-the-counter pain relievers, stress management, regular sleep, proper posture, and relaxation techniques like massage or warm compresses.'
+  },
+  {
+    id: 'gastroenteritis',
+    name: 'Gastroenteritis (Stomach Flu)',
+    icon: '🤢',
+    description: 'Inflammation of the stomach and intestines, usually caused by viral or bacterial infection. Leads to gastrointestinal symptoms.',
+    symptoms: ['nausea', 'vomiting', 'diarrhea', 'stomach-pain', 'fever'],
+    severity: 'moderate',
+    treatment: 'Rest, clear fluids, electrolyte replacement, bland diet (BRAT), and avoiding dairy. Severe dehydration may require medical attention.'
+  },
+  {
+    id: 'allergic-rhinitis',
+    name: 'Allergic Rhinitis (Hay Fever)',
+    icon: '🌸',
+    description: 'An allergic reaction to airborne substances like pollen, dust mites, or pet dander. Causes inflammation of the nasal passages.',
+    symptoms: ['runny-nose', 'sneezing', 'itchy-eyes', 'nasal-congestion'],
+    severity: 'mild',
+    treatment: 'Antihistamines, nasal corticosteroids, decongestants, avoiding allergens, and allergy shots for severe cases.'
+  },
+  {
+    id: 'bronchitis',
+    name: 'Acute Bronchitis',
+    icon: '🫁',
+    description: 'Inflammation of the bronchial tubes that carry air to the lungs. Usually caused by viral infections and results in persistent cough.',
+    symptoms: ['persistent-cough', 'mucus-production', 'fatigue', 'chest-discomfort'],
+    severity: 'moderate',
+    treatment: 'Rest, fluids, cough suppressants, expectorants, and sometimes bronchodilators. Antibiotics are not usually helpful for viral bronchitis.'
   },
   {
     id: 'sinusitis',
     name: 'Sinusitis',
-    symptoms: ['headache', 'runny-nose', 'sore-throat'],
-    description: 'Inflammation of the sinuses, often following a cold or allergic reaction.',
-    severity: 'mild',
-    icon: '👃',
-    treatment: 'Nasal decongestants, warm compresses, possibly antibiotics'
-  },
-  {
-    id: 'migraine',
-    name: 'Migraine',
-    symptoms: ['headache', 'nausea', 'dizziness'],
-    description: 'A type of headache characterized by intense pain, often on one side of the head.',
+    icon: '😤',
+    description: 'Inflammation of the sinuses, often following a cold or due to allergies. Can be acute or chronic.',
+    symptoms: ['facial-pain', 'nasal-congestion', 'thick-nasal-discharge', 'headache'],
     severity: 'moderate',
-    icon: '🤕',
-    treatment: 'Pain relievers, rest in dark quiet room, prescription medications'
-  },
-  {
-    id: 'gastroenteritis',
-    name: 'Gastroenteritis',
-    symptoms: ['nausea', 'fatigue', 'stomach-pain', 'vomiting'],
-    description: 'Inflammation of the stomach and intestines, often called stomach flu.',
-    severity: 'mild',
-    icon: '🤢',
-    treatment: 'Rest, fluids, bland diet, gradual return to normal foods'
-  },
-  {
-    id: 'strep-throat',
-    name: 'Strep Throat',
-    symptoms: ['sore-throat', 'fever', 'headache'],
-    description: 'A bacterial infection of the throat and tonsils.',
-    severity: 'moderate',
-    icon: '😷',
-    treatment: 'Antibiotics prescribed by doctor, pain relievers, rest'
-  },
-  {
-    id: 'pneumonia',
-    name: 'Pneumonia',
-    symptoms: ['cough', 'fever', 'chest-pain', 'shortness-breath', 'fatigue'],
-    description: 'An infection that inflames air sacs in one or both lungs.',
-    severity: 'severe',
-    icon: '🫁',
-    treatment: 'Antibiotics, rest, oxygen therapy if severe'
-  },
-  {
-    id: 'back-strain',
-    name: 'Back Strain',
-    symptoms: ['back-pain', 'body-aches'],
-    description: 'Muscle strain or sprain in the back muscles or ligaments.',
-    severity: 'mild',
-    icon: '🫸',
-    treatment: 'Rest, ice/heat therapy, pain relievers, gentle stretching'
+    treatment: 'Nasal decongestants, saline irrigation, pain relievers, warm compresses, and antibiotics if bacterial infection is suspected.'
   }
 ];
 
-export const symptomCategories = {
-  head: { name: 'Head & Neck', icon: '🧠', color: 'bg-blue-50 border-blue-200' },
-  chest: { name: 'Chest & Breathing', icon: '🫁', color: 'bg-green-50 border-green-200' },
-  stomach: { name: 'Stomach & Digestion', icon: '🫃', color: 'bg-orange-50 border-orange-200' },
-  body: { name: 'Body & Muscles', icon: '💪', color: 'bg-purple-50 border-purple-200' },
-  general: { name: 'General Symptoms', icon: '🌡️', color: 'bg-gray-50 border-gray-200' }
+export const getConditionMatches = (selectedSymptoms: string[]): Condition[] => {
+  if (selectedSymptoms.length === 0) return [];
+
+  const matches = conditions.map(condition => {
+    const matchingSymptoms = condition.symptoms.filter(symptom => 
+      selectedSymptoms.includes(symptom)
+    );
+    const matchPercentage = Math.round((matchingSymptoms.length / condition.symptoms.length) * 100);
+    
+    return {
+      ...condition,
+      match: matchPercentage
+    };
+  }).filter(condition => condition.match! > 0);
+
+  return matches.sort((a, b) => b.match! - a.match!);
 };

@@ -1,0 +1,102 @@
+Build a fully frontend React web app using React Router and Tailwind CSS, designed for a professional Symptom Checker platform. The app should be fully responsive and deployable on Vercel. Here’s what it must include:
+
+🌐 Pages & Routes:
+/ — Landing Page
+Hero section with headline: “Track Symptoms. Get Insights. Stay Safe.”
+
+Features section: cards for “Symptom Checker”, “Body Map”, “Multilingual UI”, “PDF Reports”
+
+Call-to-action button → Navigates to /checker
+
+/checker — Symptom Checker
+Grouped symptom checklists (Head, Chest, Abdomen, Limbs)
+
+Each symptom has:
+
+Checkbox
+
+Emoji/icon
+
+Tooltip
+
+“Check Symptoms” button triggers:
+
+2-second animated spinner
+
+Results shown using static rule-mapping (e.g., cough + fever → flu)
+
+Result section includes:
+
+Summary of selected symptoms
+
+Suggested conditions
+
+Disclaimer: “This is not a diagnosis.”
+
+Button: “View More About Condition” → goes to /condition/:id
+
+“Book Appointment” → opens modal or redirects to /book
+
+/history — Symptom Check History
+Stores last 3–5 symptom checks using LocalStorage
+
+Show timestamp, symptoms, condition
+
+Option to clear or “Re-check”
+
+/condition/:id — Condition Info Page
+Static JSON-based condition data
+
+Show:
+
+Description
+
+Common symptoms
+
+Prevention
+
+When to see a doctor
+
+/book — Appointment Booking
+Fake form with inputs:
+
+Name, Email
+
+Department select
+
+Date & time
+
+On submit: success message
+
+/faq — Frequently Asked Questions
+Static list of Q&A
+
+Example:
+
+“Is this a real diagnosis?” → “No, it's for informational purposes only.”
+
+/privacy — Privacy Policy
+Static placeholder page explaining that no real data is stored
+
+🎨 Styling:
+Use Tailwind CSS
+
+Healthcare color scheme: soft blue, green, white
+
+Responsive and clean UI
+
+Transitions between pages and loading states
+
+⚙️ Extra Features:
+Interactive body map (clickable SVG or image to jump to symptom groups)
+
+Language switcher (English & Spanish) using static translation JSON files
+
+“Doctor Mode” toggle: switches from simple to medical terms
+
+Download Results as PDF (using html2pdf.js or react-to-print)
+
+Progress bar or stepper component showing app flow
+
+Global Header & Footer across pages
+

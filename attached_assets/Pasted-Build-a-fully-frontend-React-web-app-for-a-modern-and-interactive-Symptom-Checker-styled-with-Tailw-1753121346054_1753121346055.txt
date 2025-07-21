@@ -1,0 +1,72 @@
+Build a fully frontend React web app for a modern and interactive Symptom Checker, styled with Tailwind CSS. The app should look professional and be optimized for deployment on Vercel. Here's what it must include:
+
+✅ Core Functionality:
+A clean homepage with a welcome message:
+"Welcome to HealthCheck – Track your symptoms and understand possible conditions."
+
+Symptom Selection UI:
+
+Display grouped symptom checklists (e.g., Head, Chest, Abdomen, Limbs).
+
+Each symptom should have a checkbox, emoji/icon, and tooltip (e.g., hover on “Cough” → shows “Dry or wet cough?”).
+
+Interactive Body Map:
+
+A simple clickable image or SVG representing the human body.
+
+Clicking a part (e.g., head) scrolls to that symptom section.
+
+A “Check Symptoms” button at the bottom.
+
+On click:
+
+Show a loading animation (2–3 seconds).
+
+Then display a result card with:
+
+A heading: “Possible Conditions Based on Your Symptoms”
+
+A fake result (based on simple condition mapping, e.g., fever + cough = flu)
+
+A disclaimer: “This is not a diagnosis. Please consult a doctor.”
+
+A summary card after results:
+
+Total symptoms selected
+
+Timestamp of check
+
+Button: “Book Appointment” (opens a modal with dummy booking form)
+
+Add LocalStorage support:
+
+Store last 3 symptom checks.
+
+Show recent history below results.
+
+✨ UI & Styling:
+Use Tailwind CSS for modern styling.
+
+Healthcare color theme (soft blues, whites, greens).
+
+Fully responsive on mobile.
+
+Nice transitions between sections.
+
+🎁 Bonus Features:
+Add a “Doctor Mode” toggle:
+
+Switches between patient-friendly names (e.g., “Runny nose”) and medical terms (e.g., “Rhinorrhea”)
+
+Add a language switcher (English & Spanish only; just translate symptom names)
+
+Add a Download PDF button after showing results (use html2pdf.js or react-to-print)
+
+📦 File structure:
+Components folder (SymptomGroup, ResultCard, AppointmentModal, BodyMap, etc.)
+
+Pages folder (Home.jsx or App.jsx)
+
+Data folder (symptoms.json and conditions.json)
+
+No backend, no login required. Use only React, Tailwind, and LocalStorage or dummy static data.

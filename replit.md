@@ -2,7 +2,7 @@
 
 ## Overview
 
-This is a full-stack web application that provides a medical symptom checker interface. Users can select symptoms from a predefined list and receive potential medical condition matches with severity levels and treatment recommendations. The application features a modern React frontend with shadcn/ui components and a basic Express backend structure.
+This is a full-stack web application that provides a medical symptom checker interface. Users can select symptoms from a predefined list and receive potential medical condition matches with severity levels and treatment recommendations. The application features a modern React frontend with shadcn/ui components, grouped symptom categories, interactive animations, and a PostgreSQL database for storing symptom check history.
 
 ## User Preferences
 
@@ -29,13 +29,15 @@ Preferred communication style: Simple, everyday language.
 - **Primary Database**: PostgreSQL via Neon Database serverless driver
 - **ORM**: Drizzle ORM with Zod integration for type safety
 - **Migrations**: Drizzle Kit for schema migrations
-- **Development Storage**: In-memory storage implementation for development/testing
+- **Storage Implementation**: DatabaseStorage class using PostgreSQL for persistence
 - **Session Storage**: PostgreSQL sessions via connect-pg-simple
 
 ### Database Schema
 - **Users Table**: Basic user structure with id, username, and password fields
+- **Symptom Checks Table**: Stores user symptom check history with selected symptoms, matching conditions, timestamps, and session tracking
 - **Schema Location**: Shared between client and server at `/shared/schema.ts`
 - **Type Safety**: Drizzle Zod integration for runtime validation
+- **API Endpoints**: `/api/symptom-checks` for saving and retrieving symptom check history
 
 ## Key Components
 
